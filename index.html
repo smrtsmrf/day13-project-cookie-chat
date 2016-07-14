@@ -8,18 +8,42 @@
   <body ng-controller="mainCtrl">
     <div class="main-container">
       <h1> DevMountain Chat Room </h1>
+      <div id="cookie-container">
+        <button class="btn btn-primary" ng-click="postCookie(); getCookie(); show = true">Send a Cookie</button>
+        <div ng-show="show" id="cookiesInfo">
+          {{cookies}}
+        </div>
+        <button class="btn btn-primary" ng-click="getCookie(); show = !show">Show/Hide Cookies</button>
+      </div>
+      
       <form ng-submit="postMessage(message)">
         <input class="form-control text-box" type="text" ng-model="message" placeholder="Message">
       </form>
+      <br>
+      <form>
+        <input class="form-control text-box" type="text" ng-model="filterText" placeholder="Search...">
+      </form>
+      <br>
+
+      <button id="show-hide" class="btn btn-primary text-box" ng-click="more = !more; ">Show/Hide All Info</button>
+
       <div class="messages-container">
-        <p ng-repeat="message in messages"> {{message.message}} </p>
+        <div id="list" ng-repeat="message in messages | filter: filterText | orderBy: '-createdAt'"> 
+          <div id="message" class="example-commentheading" ng-mouseover="more = true" ng-mouseleave="more = false">{{message.message}}</div> 
+          <div id="time" ng-show="more"> {{message.createdAt | date: "medium"}} </div>
+          <div id="cookie" ng-show="more">Cookie</strong>: {{message.cookie}}</div>
+        </div>
       </div>
     </div>
     <script type="text/javascript" src="http://www.parsecdn.com/js/parse-1.2.19.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.20/angular.min.js"></script>
     <script src="js/app.js"></script>
     <script src="js/mainCtrl.js"></script>
-    <script src="js/parseService.js"></script>
-    <script src="js/defaultHeaders.js"></script>
+    <script src="js/messageService.js"></script>
   </body>
 </html>
+
+
+<!-- <div ng-repeat="message in messages | filter: filterText | orderBy: '-createdAt'"> 
+          <strong>Message</strong>: {{message.message}} <strong>Time</strong>: {{message.createdAt | date: "medium"}} <strong>Cookie</strong>: {{message.cookie}}
+        </div> -->

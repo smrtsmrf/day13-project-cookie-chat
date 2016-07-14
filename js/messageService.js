@@ -1,4 +1,37 @@
 angular.module('chatroom').service('messageService', function($http){
+        this.getData = function () {
+           return $http({
+            method: 'GET',
+            url: 'http://brackcarmony.com:8092/api/chats'
+           }).then(function (response) {
+              return response.data.chats;
+           });
+        }
+
+        this.postData = function (message) {
+           return $http({
+            method: 'POST',
+            url: 'http://brackcarmony.com:8092/api/chats',
+            data: {message: message}
+           });
+        }
+
+       // cookies aren't working
+        this.postCookie = function (cookie) {
+          return $http({
+            method: 'POST',
+            url: 'http://brackcarmony.com:8092/api/cookies'
+          })
+        }
+
+        this.getCookie = function () {
+           return $http({
+            method: 'GET',
+            url: 'http://brackcarmony.com:8092/api/cookies'
+           }).then(function (response) {
+              return response.data.cookies;
+           })
+        }
   //Here you'll need to create two methods. One called postMessage and the other called getMessages.
 
   //On the lines below create a getMessages method. This method will retrieve data from the backend.
@@ -13,8 +46,5 @@ angular.module('chatroom').service('messageService', function($http){
     //in your $http call (along with url and method) have a data property which has a value that is equal to another object which a key of message and a value of the message being passed to parse. IE data: {message: yourMessage}
   //Also, remember that $http returns a promise. So if you return the whole $http call (return $http(...)), you can then use .then in your controller.
 
-  //postMessage method here
 
-
-  //getMessages method here
 });
